@@ -1,7 +1,8 @@
-package com.miruni.feature.calendar.components
+package com.miruni.feature.calendar.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,22 +31,27 @@ import com.miruni.core.designsystem.Black
 import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MainColor
 import com.miruni.core.designsystem.White
-import com.miruni.feature.calendar.model.ScheduleUiModel
-import java.time.LocalTime
-
+import com.miruni.feature.calendar.domain.model.PlanPriority
+import com.miruni.feature.calendar.presentation.model.ScheduleUiModel
 
 @Composable
 fun ScheduleItem(
     schedule: ScheduleUiModel,
     modifier: Modifier = Modifier,
+    isSelected: Boolean,
     onClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 15.dp)
+            .padding(horizontal = 15.dp, vertical = 5.dp)
             .background(Gray.gray_300, RoundedCornerShape(10.dp))
+            .border(
+                width = 1.dp,
+                color = if (isSelected) MainColor.miruni_green else Gray.gray_300,
+                shape = RoundedCornerShape(10.dp)
+            )
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.Top
@@ -137,11 +143,10 @@ fun ScheduleItemPreview() {
             id = "1",
             title = "스케줄 등록",
             description = "스케줄 Content",
-            startTime = LocalTime.of(3, 40),
-            endTime = LocalTime.of(9, 40),
-            priority = Priority.HIGH
+            priority = PlanPriority.HIGH
         ),
         onClick = {},
-        onCheckedChange = {}
+        onCheckedChange = {},
+        isSelected = true
     )
 }

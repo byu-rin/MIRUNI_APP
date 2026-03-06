@@ -3,6 +3,7 @@ package com.miruni.feature.login.presentation.component.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.core.navigation.MiruniRoute
 import com.miruni.core.navigation.NavigationDestination
 import com.miruni.feature.login.LoginNavigator
@@ -20,7 +21,7 @@ class LoginNavigation @Inject constructor(
         builder.composable(route) {
             LoginNavigator(
                 onLoginSuccess = {
-                    navController.navigate(MiruniRoute.Home.route)
+                    navController.navigate(HomeRoute.Home.route)
                 },
                 onSignUpClick = {
                     navController.navigate(MiruniRoute.SignUp.route)

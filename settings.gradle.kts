@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MIRUNI_FE"
+rootProject.name = "MIRUNI"
 include(":app")
 
 include(":feature:aiplanner")

@@ -1,4 +1,4 @@
-package com.miruni.feature.calendar.components
+package com.miruni.feature.calendar.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,22 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.MainColor
-
-enum class Priority(val label: String) {
-    HIGH("상"),
-    MEDIUM("중"),
-    LOW("하")
-}
+import com.miruni.feature.calendar.domain.model.PlanPriority
 
 @Composable
 fun PriorityBadge(
-    priority: Priority,
+    priority: PlanPriority,
     modifier: Modifier = Modifier,
 ) {
     val (backgroundColor, textColor, text) = when (priority) {
-        Priority.HIGH -> Triple(MainColor.alpha_10, MainColor.miruni_green, "상")
-        Priority.MEDIUM -> Triple(MainColor.alpha_10, MainColor.miruni_green, "중")
-        Priority.LOW -> Triple(MainColor.alpha_10, MainColor.miruni_green, "하")
+        PlanPriority.HIGH -> Triple(MainColor.alpha_10, MainColor.miruni_green, "상")
+        PlanPriority.MEDIUM -> Triple(MainColor.alpha_10, MainColor.miruni_green, "중")
+        PlanPriority.LOW -> Triple(MainColor.alpha_10, MainColor.miruni_green, "하")
     }
 
     Box(

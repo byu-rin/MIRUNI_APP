@@ -58,7 +58,7 @@ import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MainColor
 import com.miruni.core.designsystem.MiruniTheme
 import com.miruni.core.designsystem.MiruniTypography
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 
 private const val TAG = "MyPageScreen"
 
@@ -77,17 +77,17 @@ fun MyPageRoute(
             when (effect) {
                 MyPageContract.Effect.Navigation.NavigateToSettingAccount -> {
                     Log.d(TAG, "Navigating to SettingAccount")
-                    navController.navigate(MiruniRoute.MyPageSettingAccount.route)
+                    navController.navigate(MyPageRoute.MyPageSettingAccount.route)
                 }
 
                 MyPageContract.Effect.Navigation.NavigateToSettingNotification -> {
                     Log.d(TAG, "Navigating to SettingNotification")
-                    navController.navigate(MiruniRoute.MyPageSettingNotification.route)
+                    navController.navigate(MyPageRoute.MyPageSettingNotification.route)
                 }
 
                 MyPageContract.Effect.Navigation.NavigateToInfo -> {
                     Log.d(TAG, "Navigating to Info")
-                    navController.navigate(MiruniRoute.MyPageInfo.route)
+                    navController.navigate(MyPageRoute.MyPageInfo.route)
                 }
 
                 is MyPageContract.Effect.Message.Toast -> {

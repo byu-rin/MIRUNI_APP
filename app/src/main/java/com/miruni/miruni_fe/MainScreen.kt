@@ -8,7 +8,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 import com.miruni.core.navigation.NavigationDestination
 
 @Composable
@@ -19,10 +21,10 @@ fun MainScreen(destinations: Set<NavigationDestination>) {
 
     // bottom bar를 표시할 대상 route 리스트
     val bottomBarRoutes = listOf(
-        MiruniRoute.Home.route,
+        HomeRoute.Home.route,
         MiruniRoute.AiPlannerMain.route,
         MiruniRoute.Calendar.route,
-        MiruniRoute.MyPage.route
+        MyPageRoute.MyPage.route
     )
 
     val bottomBarVisible = currentDestination?.hierarchy?.any { it.route in bottomBarRoutes } == true

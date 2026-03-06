@@ -1,4 +1,4 @@
-package com.miruni.feature.calendar.components
+package com.miruni.feature.calendar.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -55,8 +55,8 @@ import com.miruni.core.designsystem.Black
 import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MainColor
 import com.miruni.core.designsystem.White
-import com.miruni.feature.calendar.WeekDayHeader
-import com.miruni.feature.calendar.model.DateTimeRangeState
+import com.miruni.feature.calendar.presentation.WeekDayHeader
+import com.miruni.feature.calendar.presentation.model.DateTimeRangeState
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -67,7 +67,7 @@ import java.time.YearMonth
 @Composable
 fun DateTimeRangeDialog(
     initialRange: DateTimeRangeState?,
-    modifier: Modifier = Modifier,
+    isSingleDateMode: Boolean = false,
     onConfirm: (DateTimeRangeState) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -137,15 +137,21 @@ fun DateTimeRangeDialog(
                             startDate = startDate,
                             endDate = endDate,
                             onClick = {
-                                handleDateClick(
-                                    clickedDate = day.date,
-                                    currentStart = startDate,
-                                    currentEnd = endDate,
-                                    onRangeChanged = { start, end ->
-                                        startDate = start
-                                        endDate = end
-                                    }
-                                )
+                                if (isSingleDateMode) {
+                                    startDate = day.date
+                                    endDate = day.date
+                                } else {
+                                    handleDateClick(
+                                        isSingleDateMode = isSingleDateMode,
+                                        clickedDate = day.date,
+                                        currentStart = startDate,
+                                        currentEnd = endDate,
+                                        onRangeChanged = { start, end ->
+                                            startDate = start
+                                            endDate = end
+                                        }
+                                    )
+                                }
                             }
                         )
                     }
@@ -316,11 +322,17 @@ fun RangeDayCell(
 
 @SuppressLint("NewApi")
 fun handleDateClick(
+    isSingleDateMode: Boolean,
     clickedDate: LocalDate,
     currentStart: LocalDate,
     currentEnd: LocalDate,
     onRangeChanged: (LocalDate, LocalDate) -> Unit,
 ) {
+    if (isSingleDateMode) { // 수정 모드 - 단일 날짜 선택
+        onRangeChanged(clickedDate, clickedDate)
+        return
+    }
+
     when {
         // 같은 날짜 2번 클릭 = 단일 날짜 유지
         currentStart == currentEnd && clickedDate == currentStart -> {

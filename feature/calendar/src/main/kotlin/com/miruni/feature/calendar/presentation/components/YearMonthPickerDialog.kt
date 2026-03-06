@@ -1,4 +1,4 @@
-package com.miruni.feature.calendar.components
+package com.miruni.feature.calendar.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

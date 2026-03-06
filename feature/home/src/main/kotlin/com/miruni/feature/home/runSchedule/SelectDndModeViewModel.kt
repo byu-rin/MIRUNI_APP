@@ -1,7 +1,7 @@
 package com.miruni.feature.home.runSchedule
 
 import com.miruni.core.common.BaseViewModel
-import com.miruni.feature.home.dnd.DndContract
+import com.miruni.feature.home.presentation.DndContract
 
 class SelectDndModeViewModel :
     BaseViewModel<DndContract.Event, DndContract.State, DndContract.Effect>() {

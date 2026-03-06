@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.miruni.core.domain.fcm.RegisterFcmTokenUseCase
 import com.miruni.miruni_fe.MainActivity
-import com.miruni.miruni_fe.R
+import com.miruni.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

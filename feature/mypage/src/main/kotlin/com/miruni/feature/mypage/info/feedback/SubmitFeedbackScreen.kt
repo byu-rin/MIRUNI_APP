@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.MiruniTheme
 import com.miruni.core.designsystem.Yellow
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 import com.miruni.feature.mypage.R
 import com.miruni.feature.mypage.component.MyPageBottomBar
 
@@ -44,8 +44,8 @@ fun SubmitFeedbackScreen(
                 contentColor = Color.Black,
                 containerColor = Color.White,
                 onConfirmClick = {
-                    navController.navigate(MiruniRoute.MyPageInfo.route) {
-                        popUpTo(MiruniRoute.MyPageInfo.route) { inclusive = true }
+                    navController.navigate(MyPageRoute.MyPageInfo.route) {
+                        popUpTo(MyPageRoute.MyPageInfo.route) { inclusive = true }
                     }
                 },
             )
