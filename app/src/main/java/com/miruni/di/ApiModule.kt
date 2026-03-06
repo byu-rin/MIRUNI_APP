@@ -1,6 +1,7 @@
 package com.miruni.di
 
 import com.miruni.feature.aiplanner.data.api.AiPlannerApi
+import com.miruni.feature.calendar.data.api.CalendarApi
 import com.miruni.feature.home.data.api.HomeApi
 import com.miruni.feature.login.data.api.AuthApi
 import com.miruni.feature.mypage.data.api.AccountApi
@@ -18,20 +19,26 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    /**
-     * AI 플래너 API
-     */
+    /** AI 플래너 */
     @Provides
     @Singleton
     fun provideAiPlannerApi(
         retrofit: Retrofit
     ): AiPlannerApi = retrofit.create(AiPlannerApi::class.java)
 
+    /** 홈 */
     @Provides
     @Singleton
     fun provideHomeApi(
         retrofit: Retrofit
     ): HomeApi = retrofit.create(HomeApi::class.java)
+
+    /** 캘린더 */
+    @Provides
+    @Singleton
+    fun provideCalendarApi(
+        retrofit: Retrofit
+    ): CalendarApi = retrofit.create(CalendarApi::class.java)
 
     // auth API
     @Provides

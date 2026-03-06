@@ -2,6 +2,7 @@ package com.miruni.miruni_fe
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
+import com.miruni.BuildConfig
 import com.miruni.network.TokenProvider
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope

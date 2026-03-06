@@ -8,18 +8,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.feature.home.dnd.component.screen.PauseOrEarlyEndScreen
+import com.miruni.feature.home.presentation.DndContract
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DndPauseScreen(
     navController: NavHostController,
-    viewModel: DndTimerViewModel = viewModel(),
+    viewModel: DndTimerViewModel = hiltViewModel(),
     hour: Int,
     minute: Int
 ) {
@@ -54,7 +55,7 @@ fun DndPauseScreen(
         RerunTimerSettingModal(
             onGoSetting = {
                 showRerunTimerSettingModal = false
-                navController.navigate(MiruniRoute.Home.route)
+                navController.navigate(HomeRoute.Home.route)
             },
             onClose = {
 

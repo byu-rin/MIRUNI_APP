@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
@@ -37,59 +40,66 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute.HomeDndTimerSetting
 import com.miruni.feature.home.R
 
 @Composable
 fun DndOnboardingScreen(
-    navController: NavHostController
+    onStartClick: () -> Unit
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF24C354)),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.weight(1f))
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        // 말풍선 카드
+        ShadowCustomCard(
+            modifier = Modifier
+                .size(width = 264.dp, height = 88.dp)
+                .padding(start = 48.dp),
         ) {
-            ShadowCustomCard(
-                modifier = Modifier
-                    .padding(start = 80.dp, top = 50.dp)
-                    .size(width = 264.dp, height = 88.dp),
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "다른 앱을 사용을 제한하고\n할 일에 더 집중해보세요!",
-                        textAlign = TextAlign.Center,
-                        color = Color.White
-                    )
-                }
+                Text(
+                    text = "다른 앱을 사용을 제한하고\n할 일에 더 집중해보세요!",
+                    textAlign = TextAlign.Center,
+                    color = Color.White
+                )
             }
-
-            // 캐릭터 이미지
-            Image(
-                painter = painterResource(id = R.drawable.miruni_basic),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .padding(end = 100.dp, top = 100.dp, bottom = 100.dp)
-                    .size(190.dp)
-            )
-            StartButton(
-                onClick = {
-                    navController.navigate(HomeDndTimerSetting.route)
-                },
-            )
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // 캐릭터 이미지
+        Image(
+            painter = painterResource(R.drawable.miruni_lock),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .size(190.dp)
+        )
+
+        Image(
+            painter = painterResource(R.drawable.miruni_shadow),
+            contentDescription = null,
+            modifier = Modifier
+                .width(107.dp)
+                .height(23.dp)
+        )
+
+        Spacer(modifier = Modifier.weight(2f))
+
+        // 시작하기 버튼 (하단 우측)
+        StartButton(
+            onClick = onStartClick,
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
     }
 }
 
@@ -124,7 +134,7 @@ private fun StartButton(
 private fun ShadowCustomCard(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(9.dp),
-    containerColor: Color = Color(0x66FBFBFB),
+    containerColor: Color = Color(0x40FBFBFB),
     shadowColor: Color = Color(0x33000000),
     offsetX: Dp = 2.dp,
     offsetY: Dp = 2.dp,
@@ -184,7 +194,7 @@ private fun ShadowCustomCard(
 private fun OnboardingScreenPreview() {
     MiruniTheme {
         DndOnboardingScreen(
-            navController = rememberNavController()
+            onStartClick = {}
         )
     }
 }

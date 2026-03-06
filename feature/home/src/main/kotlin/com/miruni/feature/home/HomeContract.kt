@@ -33,6 +33,7 @@ class HomeContract {
             object ToAiPlanner : Navigation()
             object ToAiPlannerOnboarding : Navigation()
             object ToDnd : Navigation()
+            object ToDndOnboarding : Navigation()
             data class ToExecution(val scheduleId: Int) : Navigation()
         }
         object PopBack : Effect()

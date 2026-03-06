@@ -1,17 +1,13 @@
 package com.miruni.feature.splash
 
 import android.util.Log
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -30,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.Gray
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.core.navigation.MiruniRoute
 
 @Composable
@@ -54,7 +51,7 @@ fun SplashScreen(
                 }
                 SplashContract.Effect.Navigate.ToHome -> {
                     Log.d("Splash", "Navigate.ToHome")
-                    navController.navigate(MiruniRoute.Home.route) {
+                    navController.navigate(HomeRoute.Home.route) {
                         popUpTo(MiruniRoute.Splash.route) { inclusive = true }
                     }
                 }

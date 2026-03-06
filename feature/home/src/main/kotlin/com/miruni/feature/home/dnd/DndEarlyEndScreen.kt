@@ -7,18 +7,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.feature.home.dnd.component.screen.PauseOrEarlyEndScreen
+import com.miruni.feature.home.presentation.DndContract
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DndEarlyEndScreen(
     navController: NavController,
-    viewModel: DndTimerViewModel = viewModel(),
+    viewModel: DndTimerViewModel = hiltViewModel(),
     hour: Int,
     minute: Int,
 ) {
@@ -38,7 +39,7 @@ fun DndEarlyEndScreen(
         },
         onClickButton2 = { // 확인버튼
             navController.navigate(
-                MiruniRoute.HomeDndComplete.createRoute(
+                HomeRoute.HomeDndComplete.createRoute(
                     hour = currentHour,
                     minute = currentMinute
                 )

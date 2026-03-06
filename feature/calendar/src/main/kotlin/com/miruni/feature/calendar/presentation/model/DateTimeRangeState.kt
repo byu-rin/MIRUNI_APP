@@ -1,4 +1,4 @@
-package com.miruni.feature.calendar.model
+package com.miruni.feature.calendar.presentation.model
 
 import android.annotation.SuppressLint
 import java.time.LocalDate

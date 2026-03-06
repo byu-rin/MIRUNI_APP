@@ -25,7 +25,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.feature.home.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +64,7 @@ fun RerunTimerErrorModal(
                 )
                 Button(
                     onClick = {
-                        navController.navigate(MiruniRoute.Home.route)
+                        navController.navigate(HomeRoute.Home.route)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

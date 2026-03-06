@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -13,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,7 +25,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.MiruniTheme
+import com.miruni.core.navigation.HomeRoute
 import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 
 data class BottomNavItem(
     val route: String,
@@ -38,9 +38,9 @@ data class BottomNavItem(
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val bottomNavItems = listOf(
-        BottomNavItem(MiruniRoute.Home.route, "Home", Icons.Default.Home),
+        BottomNavItem(HomeRoute.Home.route, "Home", Icons.Default.Home),
         BottomNavItem(MiruniRoute.Calendar.route, "Calendar", Icons.Default.DateRange),
-        BottomNavItem(MiruniRoute.MyPage.route, "My Page", Icons.Default.Person)
+        BottomNavItem(MyPageRoute.MyPage.route, "My Page", Icons.Default.Person)
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -62,9 +62,9 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = selected,
                 onClick = {
                     when (item.route) {
-                        MiruniRoute.Home.route -> {
-                            navController.navigate(MiruniRoute.Home.route) {
-                                popUpTo(MiruniRoute.Home.route) {
+                        HomeRoute.Home.route -> {
+                            navController.navigate(HomeRoute.Home.route) {
+                                popUpTo(HomeRoute.Home.route) {
                                     inclusive = true
                                 }
                                 launchSingleTop = true

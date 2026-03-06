@@ -36,7 +36,7 @@ class LoginViewModel @Inject constructor(
             is LoginContract.Event.OnIdChanged -> {
                 setState {
                     copy(
-                        id = id.copy(value = event.id).clearError()
+                       id = id.copy(value = event.id).clearError()
                     )
                 }
             }
@@ -76,6 +76,7 @@ class LoginViewModel @Inject constructor(
 
             LoginContract.Event.OnLoginClicked -> {
                 viewModelScope.launch {
+
                     val result = withContext(Dispatchers.IO) {
                         getLoginUseCase(
                             id = viewState.value.id.value,
@@ -91,6 +92,10 @@ class LoginViewModel @Inject constructor(
                         is DataResult.Error -> {
                             setState {
                                 copy(
+                                    id = id.copy(
+                                        isError = true,
+                                        errorMessage = result.error.errorMessage
+                                    ),
                                     password = password.copy(
                                         isError = true,
                                         errorMessage = result.error.errorMessage
@@ -100,7 +105,45 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
+//                viewModelScope.launch {
+//                    val result = withContext(Dispatchers.IO) {
+//                        getLoginUseCase(
+//                            id = viewState.value.id.value,
+//                            password = viewState.value.password.value,
+//                            autoLogin = viewState.value.autoLogin
+//                        )
+//                    }
+//                    when (result) {
+//                        is DataResult.Success -> {
+//                            val token = result.data
+//                            val fcmToken = withContext(Dispatchers.IO) {
+//                                registerFcmTokenUseCase(token.accessToken)
+//                            }
+//                            when (fcmToken) {
+//                                is DataResult.Success -> {
+//                                    setEffect { LoginContract.Effect.Navigation.ToHome }
+//                                }
+//                                is DataResult.Error -> {
+//                                    setEffect { LoginContract.Effect.Message.Snackbar(fcmToken.error.errorMessage) }
+//                                }
+//                            }
+//
+//                        }
+//
+//                        is DataResult.Error -> {
+//                            setState {
+//                                copy(
+//                                    password = password.copy(
+//                                        isError = true,
+//                                        errorMessage = result.error.errorMessage
+//                                    ),
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
             }
+
 
 
             LoginContract.Event.OnGoogleLoginClicked -> {

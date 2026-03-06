@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
             HomeContract.Event.OnBackClick -> setEffect { HomeContract.Effect.PopBack }
             HomeContract.Event.OnAlarmClick -> setEffect { HomeContract.Effect.Navigation.ToAlarms }
             HomeContract.Event.OnAiPlannerClick -> goToAiPlanner()
-            HomeContract.Event.OnDndClick -> setEffect { HomeContract.Effect.Navigation.ToDnd }
+            HomeContract.Event.OnDndClick -> goToDndMode()
             is HomeContract.Event.OnScheduleClick -> handleScheduleClick(event.scheduleId)
         }
     }
@@ -89,6 +89,24 @@ class HomeViewModel @Inject constructor(
         } else {
             setState {
                 copy(selectedScheduleId = scheduleId)
+            }
+        }
+    }
+
+    /**
+     * 방해금지 모드로 이동.
+     * 온보딩인지 / 방해금지모드 메인인지 판단 후 Effect 발생
+     */
+    private fun goToDndMode() {
+        viewModelScope.launch {
+            val onboardingCompleted = onboardingRepository
+                .isCompleted(OnboardingKey.DND)
+                .first()
+
+            if (onboardingCompleted) { // 온보딩 완료 시
+                setEffect { HomeContract.Effect.Navigation.ToDnd }
+            } else {
+                setEffect { HomeContract.Effect.Navigation.ToDndOnboarding }
             }
         }
     }

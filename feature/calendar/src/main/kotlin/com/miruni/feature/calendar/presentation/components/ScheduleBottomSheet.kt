@@ -1,6 +1,7 @@
-package com.miruni.feature.calendar.components
+package com.miruni.feature.calendar.presentation.components
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -31,7 +32,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -53,10 +53,10 @@ import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.Black
 import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MainColor
-import com.miruni.core.designsystem.MiruniTypography
 import com.miruni.core.designsystem.White
 import com.miruni.feature.calendar.common.MiruniButton
 import com.miruni.feature.calendar.common.MiruniTextField
+import com.miruni.feature.calendar.domain.model.PlanPriority
 
 @Composable
 fun isKeyboardVisible(): Boolean {
@@ -85,37 +85,35 @@ fun isKeyboardVisible(): Boolean {
 fun ScheduleBottomSheet(
     title: String,
     description: String,
-    priority: Priority,
+    date: String,
+    priority: PlanPriority,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onClickPlanDetail: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var isEditMode by remember { mutableStateOf(false) }
     // 3dot 메뉴 상태
     var showMenu by remember { mutableStateOf(false) }
 
-    var editedDescription by remember { mutableStateOf(description) }
+    var editedDescription by remember(description) { mutableStateOf(description) }
     val descriptionFocusRequester = remember { FocusRequester() }
     val isKeyboardVisible = isKeyboardVisible()
+
+    Log.d("Refresh/Get Plan", "11. ScheduleBottomSheet Title: $title, Description: $description")
 
     if (showDeleteDialog) {
         DeleteScheduleDialog(
             onConfirm = {
+                onDelete()
                 showDeleteDialog = false
             },
             onDismiss = {
                 showDeleteDialog = false
             }
         )
-    }
-
-    LaunchedEffect(isEditMode) {
-        if (isEditMode) {
-            descriptionFocusRequester.requestFocus()
-        }
     }
 
     ModalBottomSheet(
@@ -145,7 +143,7 @@ fun ScheduleBottomSheet(
                     ) {
                         Text(
                             text = title,
-                            style = AppTypography.header_bold_16,
+                            style = AppTypography.sub_bold_14,
                             color = Black
                         )
 
@@ -180,6 +178,7 @@ fun ScheduleBottomSheet(
                                     )
                                 },
                                 onClick = {
+                                    onClickPlanDetail()
                                     showMenu = false
                                 }
                             )
@@ -199,7 +198,7 @@ fun ScheduleBottomSheet(
                                 },
                                 onClick = {
                                     showMenu = false
-                                    isEditMode = true
+                                    onEdit()
                                 }
                             )
                             HorizontalDivider(
@@ -226,17 +225,19 @@ fun ScheduleBottomSheet(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // 설명
                 MiruniTextField.InputText(
                     value = editedDescription,
                     onValueChange = {editedDescription = it},
-                    enabled = isEditMode,
+                    enabled = false,
                     focusRequester = descriptionFocusRequester,
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
+                // 날짜
                 MiruniTextField.InputText(
-                    value = "2025년 9월 20일 오후 2:20 ~ 오후 5:50",
+                    value = date,
                     onValueChange = {},
                     enabled = false,
                     textColor = Gray.gray_500,
@@ -252,15 +253,6 @@ fun ScheduleBottomSheet(
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-
-                if (isEditMode && !isKeyboardVisible) {
-                    MiruniButton.Single(
-                        text = "확인",
-                        onClick = {
-                            isEditMode = false
-                        }
-                    )
-                }
             }
         }
     }
@@ -331,9 +323,11 @@ fun ScheduleBottomSheetPreview() {
     ScheduleBottomSheet(
         title = "타이틀",
         description = "설명",
-        priority = Priority.MEDIUM,
+        date = "~~~~",
+        priority = PlanPriority.MEDIUM,
         onDismiss = {},
         onEdit = {},
-        onDelete = {}
+        onDelete = {},
+        onClickPlanDetail = {}
     )
 }

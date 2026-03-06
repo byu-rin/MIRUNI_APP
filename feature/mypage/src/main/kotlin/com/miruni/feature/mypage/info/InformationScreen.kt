@@ -33,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 import com.miruni.feature.mypage.component.MyPageTopBar
 
 private const val TAG = "InformationScreen"
@@ -112,7 +112,7 @@ fun InformationScreen(
                             .testTag("writeButton"),
                         onClick = {
                             Log.d(TAG, "작성하기 button clicked")
-                            navController.navigate(MiruniRoute.MyPageWriteFeedback.route)
+                            navController.navigate(MyPageRoute.MyPageWriteFeedback.route)
                         },
                         border = BorderStroke(1.dp, Color(0xFF1B67FF)),
                         shape = RoundedCornerShape(6.dp)
@@ -132,7 +132,7 @@ fun InformationScreen(
                             .testTag("historyButton"),
                         onClick = {
                             Log.d(TAG, "내역보기 button clicked")
-                            navController.navigate(MiruniRoute.MyPageShowFeedbackHistory.route)
+                            navController.navigate(MyPageRoute.MyPageShowFeedbackHistory.route)
                         },
                         border = BorderStroke(1.dp, Color(0xFF1B67FF)),
                         shape = RoundedCornerShape(6.dp)

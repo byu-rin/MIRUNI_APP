@@ -43,12 +43,12 @@ import com.miruni.core.designsystem.MainColor
 import com.miruni.core.designsystem.MiruniTheme
 import com.miruni.core.designsystem.MiruniTypography
 import com.miruni.feature.home.R
-import com.miruni.feature.home.dnd.DndContract
 import com.miruni.feature.home.dnd.TimerMode
 import com.miruni.feature.home.dnd.component.DndTopBar
 import com.miruni.feature.home.dnd.component.InputTimeView
 import com.miruni.feature.home.dnd.component.button.RowButton
 import com.miruni.feature.home.dnd.component.button.SingleGreenButton
+import com.miruni.feature.home.presentation.DndContract
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -142,12 +142,12 @@ private fun DndTimerSetContent(
                     )
                 }
             }
-            Spacer(Modifier.height(60.dp))
+            Spacer(Modifier.height(100.dp))
 
             Image(
-                painter = painterResource(id = R.drawable.miruni_basic),
+                painter = painterResource(id = R.drawable.miruni_lock),
                 contentDescription = null,
-                modifier = Modifier.size(126.dp)
+                modifier = Modifier.size(140.dp)
             )
 
             Spacer(Modifier.height(100.dp))
@@ -167,12 +167,14 @@ private fun DndTimerSetContent(
                         )
                     }
 
-                    Spacer(Modifier.height(100.dp))
+                    Spacer(Modifier.height(70.dp))
 
                     InputTimeView(
                         timePickerState = timePickerState,
                         isRunning = false,
                     )
+
+                    Spacer(Modifier.height(70.dp))
 
                     SingleGreenButton(
                         onClick = onConfirmClick,

@@ -3,13 +3,15 @@ package com.miruni.feature.home.dnd
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.miruni.core.common.BaseViewModel
-import com.miruni.core.common.ViewEvent
-import com.miruni.core.common.ViewSideEffect
-import com.miruni.core.common.ViewState
+import com.miruni.core.domain.onboarding.OnboardingKey
+import com.miruni.core.domain.onboarding.OnboardingRepository
+import com.miruni.feature.home.presentation.DndContract
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.NonCancellable.isActive
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 enum class TimerMode {
     SET,      // 시간 설정 화면
@@ -17,46 +19,10 @@ enum class TimerMode {
     PAUSED    // 일시정지 화면
 }
 
-class DndModalContract {
-
-    sealed class ModalEffect : ViewSideEffect {
-        object OpenRerunTimerErrorModal : ModalEffect()
-        object OpenRerunTimerSettingModal : ModalEffect()
-        object Close : ModalEffect()
-    }
-}
-
-class DndContract {
-
-    sealed class Event : ViewEvent {
-        data class SetTime(val hour: Int, val minute: Int) : Event()
-        object Start : Event()
-        object Pause : Event()
-        object End : Event()
-        object Resume : Event()
-    }
-
-    data class State(
-        val remainingMinute: Int = 0, // 남아있는 분
-        val isRunning: Boolean = false, // 타이머가 현재 실행 중인지 여부
-        val isDone: Boolean = true, // 타이머가 끝났는지 확인
-        val mode: TimerMode = TimerMode.SET
-    ) : ViewState {
-        // 파생 상태 (Derived State)
-        // State를 직접 바꾸지 않고 계산으로만 사용
-        val hours: Int get() = remainingMinute / 60
-        val minutes: Int get() = remainingMinute % 60
-    }
-
-    sealed class Effect : ViewSideEffect {
-        object TimeFinished : Effect()
-        object NavigateToPause : Effect()
-        object NavigateToEarlyEnd : Effect()
-        object NavigateToHome : Effect()
-    }
-}
-
-class DndTimerViewModel :
+@HiltViewModel
+class DndTimerViewModel @Inject constructor(
+    private val onboardingRepository: OnboardingRepository
+) :
     BaseViewModel<DndContract.Event, DndContract.State, DndContract.Effect>() {
 
     // 타이머 코루틴 Job
@@ -66,12 +32,21 @@ class DndTimerViewModel :
 
     override fun handleEvents(event: DndContract.Event) {
         when (event) {
+            DndContract.Event.CompleteOnboarding -> completeOnboarding()
+
             is DndContract.Event.SetTime -> setTime(event.hour, event.minute)
             DndContract.Event.Start -> start()
             DndContract.Event.Pause -> pause()
             DndContract.Event.End -> end()
             DndContract.Event.Resume -> resume()
         }
+    }
+
+    private fun completeOnboarding() {
+        viewModelScope.launch {
+            onboardingRepository.completeOnboarding(OnboardingKey.DND)
+        }
+
     }
 
     /**
@@ -159,7 +134,9 @@ class DndTimerViewModel :
             }
 
             // 시간이 끝났을 때 Effect 발생
-            setEffect { DndContract.Effect.TimeFinished }
+            if (viewState.value.remainingMinute <= 0) {
+                setEffect { DndContract.Effect.TimeFinished }
+            }
         }
     }
 

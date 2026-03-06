@@ -50,7 +50,7 @@ import com.miruni.core.designsystem.AppTypography
 import com.miruni.core.designsystem.Gray
 import com.miruni.core.designsystem.MainColor
 import com.miruni.core.designsystem.MiruniTheme
-import com.miruni.core.navigation.MiruniRoute
+import com.miruni.core.navigation.MyPageRoute
 import com.miruni.feature.mypage.R
 import com.miruni.feature.mypage.component.MyPageBottomBar
 import com.miruni.feature.mypage.component.MyPageTopBar
@@ -73,14 +73,14 @@ fun WriteFeedbackScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is FeedbackContract.Effect.Navigation.NavigateToSubmitFeedback -> {
-                    navController.navigate(MiruniRoute.MyPageSubmitFeedback.route)
+                    navController.navigate(MyPageRoute.MyPageSubmitFeedback.route)
                 }
                 is FeedbackContract.Effect.Navigation.NavigateBack -> {
                     navController.popBackStack()
                 }
                 is FeedbackContract.Effect.Navigation.NavigateToInformation -> {
-                    navController.navigate(MiruniRoute.MyPageInfo.route) {
-                        popUpTo(MiruniRoute.MyPageInfo.route) { inclusive = true }
+                    navController.navigate(MyPageRoute.MyPageInfo.route) {
+                        popUpTo(MyPageRoute.MyPageInfo.route) { inclusive = true }
                     }
                 }
                 is FeedbackContract.Effect.Message.Toast -> {
