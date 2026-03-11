@@ -41,11 +41,13 @@
 
 ## 개발 환경
 
+```
 | IDE | Android Studio |
 | 언어 | Kotlin 2.0.20 |
 | UI 프레임워크 | Jetpack Compose (BOM 2024.10.00), Material3 1.4.0 |
 | 빌드 | AGP 8.9.1, Gradle 8.10.1, KSP 2.0.20  |
 | Min SDK / Target SDK | 24 / 36 |
+```
 
 ## 네비게이션
   NavigationDestination 인터페이스를 정의하고, 각 Feature 모듈이 이를 구현합니다.
