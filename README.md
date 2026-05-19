@@ -18,22 +18,17 @@
               └─ 마이페이지: 프로필 편집, 계정 설정, 알림 설정, 피드백
 ```
 
-## 흐름
+## 데이터 흐름
 
 ```
-  UI (Compose Screen)
-    ↓ Event 발행
-  ViewModel (BaseViewModel<Event, State, Effect>)
-    ↓ Repository 호출
-  Repository (Interface → Impl)
-    ↓ API 호출
-  Retrofit API Interface
-    ↓ OkHttp + AuthInterceptor (JWT 자동 주입)
-  Spring Boot REST API Server
+1. Event 수집: setEvent(event) -> SharedFlow
+2. 비즈니스 로직 처리
+3. 상태 업데이트 (Reducer): 새로운 ViewState를 생성하고 UI 반영
+4. SideEffect
 ```
 
-  State는 StateFlow로 UI에 반영되고, 
-  네비게이션/토스트 등 일회성 동작은 Effect(Channel)로 전달됩니다.
+State는 StateFlow로 UI에 반영되고, 
+네비게이션/토스트 등 일회성 동작은 Effect(Channel)로 전달됩니다.
 
 <br><br><br>
 
@@ -129,40 +124,6 @@ app/                      → DI 모듈, MainActivity, MainScreen,
   - FeedbackViewModel이 제목, 내용, 사진(최대 10장), 개인정보 동의를 State로
   관리
   - isSubmitEnabled는 제목 + 내용 + 개인정보 동의 여부의 파생 상태
-
-<br><br><br>
-
-# 기술적 문제 해결
-  ## 1. 방해금지모드 온보딩이 반복 표시되는 문제
-  증상: DataStore로 온보딩 완료 여부를 저장하는 로직을 구현했으나, 방해금지모드
-  진입 시 매번 온보딩이 표시됨.
-
-원인 분석
-  1. HomeScreen 의 Effect 수집 when 절에서 Effect 처리 누락으로 인해 네비게이션 발생 x
-  2. DndOnboardingScreen 클릭 이벤트 발생 시 navigation(route) 만 호출하고,
-DndContract.Event 를 발행하지 않았다. DataStore 에 완료상태가 저장되지 않아, 매번 미완료로 판단.
-
-해결
-  1. HomeScreen에 ToDndOnboarding Effect 핸들러 추가
-  2. DndOnboardingScreen에 onStartClick: () -> Unit 콜백 파라미터 추가
-  3. HomeNavigation에서 콜백 내에서 viewModel.setEvent(CompleteOnboarding) +
-  네비게이션을 함께 처리
-
-<br>
-
-  ## 2. 타이머 viewModel 공유
-  증상 : 타이머 실행 중 일시정지 화면으로 이동 후 "이어하기" 클릭 시 타이머가 0으로 초기화
-
-원인 분석
-  1. 각 Composable에서 viewModel()을 호출하면 Navigation destination마다 새
-  ViewModel 인스턴스가 생성된다. DndTimerScreen과 DndPauseScreen이 서로 다른
-  ViewModel 인스턴스를 참조하고 있었다.
-
-해결
-  HomeNavigation에서
-  navController.getBackStackEntry(HomeRoute.Home.route)로 Home의 백스택 엔트리를
-  가져오고, hiltViewModel(parentEntry)로 동일한 스코프의 ViewModel을 공유한다.
-  타이머, 일시정지, 조기종료, 완료 화면 모두 동일한 DndTimerViewModel 인스턴스를 참조한다.
 
 <br><br><br>
 
